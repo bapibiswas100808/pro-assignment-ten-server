@@ -1,7 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 require("dotenv").config();
-const { MongoClient, ServerApiVersion } = require("mongodb");
+const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 const app = express();
 const port = process.env.PORT || 5000;
 
@@ -31,6 +31,20 @@ async function run() {
     app.get("/allCraft", async (req, res) => {
       const cursor = allCraftCollection.find();
       const result = await cursor.toArray();
+      res.send(result);
+    });
+    // get with id
+    app.get("/allCraft/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const result = await allCraftCollection.findOne(query);
+      res.send(result);
+    });
+    // get with email
+    app.get("/myCraft/:email", async (req, res) => {
+      const email = req.params.email;
+      const query = { email: req.params.email };
+      const result = await allCraftCollection.find(query).toArray();
       res.send(result);
     });
     // post
