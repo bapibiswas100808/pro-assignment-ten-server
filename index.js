@@ -26,6 +26,13 @@ async function run() {
     await client.connect();
 
     const allCraftCollection = client.db("allCraftDB").collection("allCraft");
+
+    // Get
+    app.get("/allCraft", async (req, res) => {
+      const cursor = allCraftCollection.find();
+      const result = await cursor.toArray();
+      res.send(result);
+    });
     // post
     app.post("/allCraft", async (req, res) => {
       const newData = req.body;
