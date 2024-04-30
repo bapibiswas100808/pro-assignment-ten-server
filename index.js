@@ -42,6 +42,13 @@ async function run() {
       const result = await cursor.toArray();
       res.send(result);
     });
+    // get with subcategory
+    app.get("/myCategory/:subCategory", async (req, res) => {
+      const subCategory = req.params.subCategory;
+      const query = { subCategory: req.params.subCategory };
+      const result = await allCraftCollection.find(query).toArray();
+      res.send(result);
+    });
     // get with id
     app.get("/allCraft/:id", async (req, res) => {
       const id = req.params.id;
