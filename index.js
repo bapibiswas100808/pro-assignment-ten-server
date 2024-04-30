@@ -54,6 +54,39 @@ async function run() {
       const result = await allCraftCollection.insertOne(newData);
       res.send(result);
     });
+    // UPdate
+    app.put("/allCraft/:id", async (req, res) => {
+      const id = req.params.id;
+      const filter = { _id: new ObjectId(id) };
+      const options = { upsert: true };
+      const updatedCraft = req.body;
+      const updateCraft = {
+        $set: {
+          image: updatedCraft.image,
+          itemName: updatedCraft.itemName,
+          subCategory: updatedCraft.subCategory,
+          processingTime: updatedCraft.processingTime,
+          price: updatedCraft.price,
+          rating: updatedCraft.rating,
+          shortDescription: updatedCraft.shortDescription,
+          customization: updatedCraft.customization,
+          stock: updatedCraft.stock,
+        },
+      };
+      const result = await allCraftCollection.updateOne(
+        filter,
+        updateCraft,
+        options
+      );
+      res.send(result);
+    });
+    // Delete
+    app.delete("/allCraft/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const result = await allCraftCollection.deleteOne(query);
+      res.send(result);
+    });
 
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
