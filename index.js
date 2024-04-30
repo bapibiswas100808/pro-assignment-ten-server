@@ -26,10 +26,19 @@ async function run() {
     await client.connect();
 
     const allCraftCollection = client.db("allCraftDB").collection("allCraft");
+    const allCategoryCollection = client
+      .db("allCraftDB")
+      .collection("allCategories");
 
     // Get
     app.get("/allCraft", async (req, res) => {
       const cursor = allCraftCollection.find();
+      const result = await cursor.toArray();
+      res.send(result);
+    });
+    // Get category
+    app.get("/allCategories", async (req, res) => {
+      const cursor = allCategoryCollection.find();
       const result = await cursor.toArray();
       res.send(result);
     });
